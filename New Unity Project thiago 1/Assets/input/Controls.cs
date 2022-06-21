@@ -145,7 +145,13 @@ public class @Controls : IInputActionCollection, IDisposable
         {
             ""name"": ""teclado"",
             ""bindingGroup"": ""teclado"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");

@@ -10,7 +10,17 @@ public class playerControle : MonoBehaviour
     private Camera _mainCamera;
     private Vector2 _moveInput;
     private Rigidbody _rigidbody;
-    public object moveMultiplier;
+    private bool _isGrounded;
+    
+    public float moveMultiplier;
+    
+    public float maxVelocity;
+    
+    public float rayDistance;
+    
+    public LayerMask layerMask;
+    
+    //public jumpForce;
     
     private void OnEnable()
     {
@@ -38,10 +48,15 @@ public class playerControle : MonoBehaviour
         {
             _moveInput = obj.ReadValue<Vector2>();
         }
+        //if (obj).Action.name
     }
 
     private void Move()
     {
+        Vector3 camForward = _mainCamera.transform.forward;
+        Vector3 camRight = _mainCamera.transform.right;
+        camForward.y = 0;
+        camRight.y = 0;
        _rigidbody.AddForce((_mainCamera.transform.forward * _moveInput.y + _mainCamera.transform.right * _moveInput.x) * (float) moveMultiplier * Time.deltaTime); 
     }
 
@@ -49,4 +64,23 @@ public class playerControle : MonoBehaviour
     {
         Move();
     }
+
+    private void LimitVerlocity()
+    {
+        Vector3 velocity = _rigidbody.velocity;
+
+        if (Mathf.Abs(velocity.x) > maxVelocity) velocity.x = Mathf.Sign(velocity.x) * maxVelocity;
+        if (Mathf.Abs(velocity.z) > maxVelocity) velocity.z = Mathf.Sign(velocity.z) * maxVelocity;
+
+        _rigidbody.velocity = velocity;
+    }
+    
+     
+    
+    
+    
+    
+    
+    
+    
 }
