@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class playerControle : MonoBehaviour
 {
+    public TMP_Text coinText;
+    public int coins = 0;
     private Controls _gameControls;
     private PlayerInput _playerInput;
     private Camera _mainCamera;
     private Vector2 _moveInput;
     private Rigidbody _rigidbody;
     private bool _isGrounded;
-    
-    public float moveMultiplier;
+    private float moveMultiplier;
     
     public float maxVelocity;
     
@@ -20,7 +22,7 @@ public class playerControle : MonoBehaviour
     
     public LayerMask layerMask;
     
-    //public jumpForce;
+    public float jumpForce;
     
     private void OnEnable()
     {
@@ -48,7 +50,12 @@ public class playerControle : MonoBehaviour
         {
             _moveInput = obj.ReadValue<Vector2>();
         }
-        //if (obj).Action.name
+        if (obj.action.name.CompareTo( _gameControls.Gameplay.Jump.name) == 0)
+        {
+            if (obj.performed) Jump();
+        }
+        
+        
     }
 
     private void Move()
@@ -63,6 +70,7 @@ public class playerControle : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        LimitVerlocity();
     }
 
     private void LimitVerlocity()
@@ -70,17 +78,48 @@ public class playerControle : MonoBehaviour
         Vector3 velocity = _rigidbody.velocity;
 
         if (Mathf.Abs(velocity.x) > maxVelocity) velocity.x = Mathf.Sign(velocity.x) * maxVelocity;
-        if (Mathf.Abs(velocity.z) > maxVelocity) velocity.z = Mathf.Sign(velocity.z) * maxVelocity;
+        //if (Mathf.Abs(velocity.z) > maxVelocity) velocity.z = Mathf.Sign(velocity.z) * maxVelocity;
 
         _rigidbody.velocity = velocity;
     }
-    
-     
-    
-    
-    
-    
-    
-    
-    
+
+    private void CheckGround()
+    {
+        RaycastHit collison;
+        if (Physics.Raycast(transform.position, Vector3.down, out collison, rayDistance, layerMask))
+        {
+            _isGrounded = true;
+
+        }
+        else
+        {
+            _isGrounded = false;
+        }
+
+    }
+
+    private void Jump()
+    {
+        if (_isGrounded)
+        {
+            _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private void Update()
+    {
+        CheckGround();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            coins++;
+            Destroy(other.gameObject);
+            coinText.text = coins.ToString();
+            Destroy(other.gameObject);
+        }
+
+    }
 }
