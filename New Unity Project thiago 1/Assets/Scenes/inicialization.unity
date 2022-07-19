@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 381117559}
+  - component: {fileID: 381117560}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -153,3 +154,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &381117560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381117558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294e88feae97fe14d9273f197ed2b79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guiName: GUI
+  levelName: cenap1
+  playerAndCameraPrefab: {fileID: 4118427129634984998, guid: 7392a0658cfe3b04fb31996205fe34fa, type: 3}
