@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class playerControle : MonoBehaviour
 {
-    public TMP_Text coinText;
+    
     public int coins = 0;
     private Controls _gameControls;
     private PlayerInput _playerInput;
@@ -116,9 +116,12 @@ public class playerControle : MonoBehaviour
         if (other.CompareTag("Coin"))
         {
             coins++;
+            // Manda a notificação da mudança do valor de coins
+            PlayerObserverManager.CoinsChanged(coins);
+           
+            // Destrua o objeto coins
             Destroy(other.gameObject);
-            coinText.text = coins.ToString();
-            Destroy(other.gameObject);
+            
         }
 
     }
